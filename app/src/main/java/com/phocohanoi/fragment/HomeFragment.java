@@ -19,7 +19,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Tiện ích");
     }
 
     @Override
@@ -27,8 +26,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-//        return inflater.inflate(R.layout.fragment_home, container, false);
 
         btnMap = (Button) view.findViewById(R.id.btnMap);
         btnList = (Button) view.findViewById(R.id.btnList);
@@ -64,12 +61,4 @@ public class HomeFragment extends Fragment {
         ft.replace(R.id.container_frame_back, fragment, tag);
         ft.commitAllowingStateLoss();
     }
-
-
-//    private void displaySelectedFragment(Fragment fragment) {
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.container_frame_back, fragment);
-//        fragmentTransaction.commit();
-//    }
-
 }

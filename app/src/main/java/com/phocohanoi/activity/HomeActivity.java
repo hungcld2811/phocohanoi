@@ -30,12 +30,9 @@ import com.phocohanoi.fragment.ListViewFragment;
 import com.phocohanoi.fragment.UtilFragment;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private Advance3DDrawerLayout drawer;
-    private Button btnMap, btnList;
-    private ImageView iconLeft;
-    private TextView tvTest;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private RelativeLayout rlHome, rlAbout, rlUtil, rlLanguage;
@@ -45,99 +42,38 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-//        iconLeft = (ImageView) findViewById(R.id.iconLeft);
-//        iconLeft.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                drawer.openDrawer(GravityCompat.START);
-//            }
-//        });
+        initView();
+        initClickListener();
+        addFragment(new HomeFragment(), false, "one");
+    }
+
+    private void initView() {
+        rlHome = (RelativeLayout) findViewById(R.id.rlHome);
+        rlAbout = (RelativeLayout) findViewById(R.id.rlAbout);
+        rlUtil = (RelativeLayout) findViewById(R.id.rlUtil);
+        rlLanguage = (RelativeLayout) findViewById(R.id.rlLanguage);
 
         drawer = (Advance3DDrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         drawer.setScrimColor(Color.TRANSPARENT);
+        drawer.setViewScale(Gravity.START, 0.96f);
+        drawer.setRadius(Gravity.START, 20);
+        drawer.setViewElevation(Gravity.START, 8);
+        drawer.setViewRotation(Gravity.START, 15);
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getBackground().setColorFilter(0x00000000, PorterDuff.Mode.MULTIPLY);
-        drawer.setViewScale(Gravity.START, 0.96f);
-        drawer.setRadius(Gravity.START, 20);
-        drawer.setViewElevation(Gravity.START, 8);
-        drawer.setViewRotation(Gravity.START, 15);
-
-
-//        btnMap = (Button) findViewById(R.id.btnMap);
-//        btnList = (Button) findViewById(R.id.btnList);
-        rlHome = (RelativeLayout) findViewById(R.id.rlHome);
-        rlAbout = (RelativeLayout) findViewById(R.id.rlAbout);
-        rlUtil = (RelativeLayout) findViewById(R.id.rlUtil);
-        rlLanguage = (RelativeLayout) findViewById(R.id.rlLanguage);
-        rlUtil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.closeDrawer(GravityCompat.START);
-                Fragment fragment = new UtilFragment();
-                displaySelectedFragment(fragment);
-            }
-        });
-
-        rlAbout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.closeDrawer(GravityCompat.START);
-//                Fragment fragment = new AboutFragment();
-//                displaySelectedFragment(fragment);
-                addFragment(new AboutFragment(), false, "one");
-            }
-        });
-
-        rlHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.closeDrawer(GravityCompat.START);
-//                Fragment fragment = new HomeFragment();
-//                displaySelectedFragment(fragment);
-                addFragment(new HomeFragment(), false, "one");
-            }
-        });
-
-        rlLanguage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.closeDrawer(GravityCompat.START);
-            }
-        });
-//        btnList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                addFragment(new ListViewFragment(), false, "one");
-//            }
-//        });
-//
-//        btnMap.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                addFragment(new MapFragment(), false, "one");
-//            }
-//        });
-
-//        addFragment(new MapFragment(), false, "one");
-
-
-//        Fragment fragment = new HomeFragment();
-//        displaySelectedFragment(fragment);
-        addFragment(new HomeFragment(), false, "one");
-    }
-
-    private void initView() {
-
     }
 
     private void initClickListener() {
-
+        rlHome.setOnClickListener(this);
+        rlAbout.setOnClickListener(this);
+        rlUtil.setOnClickListener(this);
+        rlLanguage.setOnClickListener(this);
     }
 
     private void addFragment(Fragment fragment, boolean addToBackStack, String tag) {
@@ -151,13 +87,6 @@ public class HomeActivity extends AppCompatActivity
         ft.commitAllowingStateLoss();
     }
 
-    private void displaySelectedFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container_frame_back, fragment);
-        fragmentTransaction.commit();
-    }
-
-
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -166,7 +95,6 @@ public class HomeActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -178,8 +106,23 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rlHome:
+                drawer.closeDrawer(GravityCompat.START);
+                addFragment(new HomeFragment(), false, "home");
+                break;
+            case R.id.rlAbout:
+                drawer.closeDrawer(GravityCompat.START);
+                addFragment(new AboutFragment(), false, "about");
+                break;
+            case R.id.rlUtil:
+                drawer.closeDrawer(GravityCompat.START);
+                addFragment(new UtilFragment(), false, "util");
+                break;
+            case R.id.rlLanguage:
+                drawer.closeDrawer(GravityCompat.START);
+                break;
+        }
     }
 }
