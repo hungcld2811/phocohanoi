@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
         if (addToBackStack) {
             ft.addToBackStack(tag);
         }
-        ft.replace(R.id.container_frame_back, fragment, tag);
+        ft.replace(R.id.container_frame, fragment, tag);
         ft.commitAllowingStateLoss();
     }
 }
