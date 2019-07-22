@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,8 +25,18 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.phocohanoi.R;
+import com.phocohanoi.adapter.BigVisitAdapter;
+import com.phocohanoi.model.BigVisit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapFragment extends Fragment {
+
+    private RecyclerView recyclerView;
+    private BigVisitAdapter bigVisitAdapter;
+    private List<BigVisit> bigVisitList;
+
 
     public MapFragment() {
         // Required empty public constructor
@@ -60,6 +74,19 @@ public class MapFragment extends Fragment {
         });
 
 
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.mapList);
+
+        bigVisitList = new ArrayList<>();
+        bigVisitAdapter = new BigVisitAdapter(getActivity(), bigVisitList);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(bigVisitAdapter);
+
+        prepareList();
+
         return rootView;
     }
 
@@ -70,6 +97,21 @@ public class MapFragment extends Fragment {
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    private void prepareList() {
+        BigVisit big1 = new BigVisit("https://i.ytimg.com/vi/tyejzT4nQcU/hqdefault.jpg","Ngôi nhà di sản","87 Mã Mây","ĐỊA ĐIỂM THĂM QUAN");
+        BigVisit big2 = new BigVisit("https://media.doisongvietnam.vn/u/rootimage/editor/2018/09/18/21/34/w825/img1537259674_7219.jpg","Viện bảo tàng","1 Phùng Hưng","ĐỊA ĐIỂM THĂM QUAN");
+        BigVisit big3 = new BigVisit("https://image-us.eva.vn/upload/4-2018/images/2018-12-04/yaya-truong-nhi-khoe-body-van-nguoi-me-cung-than-sac-khong-kem-hoa-hau-11-1543909541-863-width660height441.jpg","Ốc quán","113 Yên Hòa","ĐỊA ĐIỂM THĂM QUAN");
+        BigVisit big4 = new BigVisit("https://icdn.dantri.com.vn/thumb_w/640/59245d4683/2018/12/04/img20181204143303578-f1c3f.jpg","Bưu điện Hà Nội","75 Đinh Tiên Hoàng","ĐỊA ĐIỂM THĂM QUAN");
+        BigVisit big5 = new BigVisit("https://image-us.eva.vn/upload/4-2018/images/2018-12-04/yaya-truong-nhi-khoe-body-van-nguoi-me-cung-than-sac-khong-kem-hoa-hau-1-1543909541-425-width660height441.jpg","Ngôi nhà di sản","87 Mã Mây","ĐỊA ĐIỂM THĂM QUAN");
+        BigVisit big6 = new BigVisit("https://i.ytimg.com/vi/tyejzT4nQcU/hqdefault.jpg","Ngôi nhà di sản","87 Mã Mây","ĐỊA ĐIỂM THĂM QUAN");
+        bigVisitList.add(big1);
+        bigVisitList.add(big2);
+        bigVisitList.add(big3);
+        bigVisitList.add(big4);
+        bigVisitList.add(big5);
+        bigVisitList.add(big6);
     }
 
 }
